@@ -14,16 +14,21 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "next": "14.2.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
     "@prisma/client": "5.15.0",
     "@zxing/browser": "0.1.4",
-    "@zxing/library": "0.21.2"
+    "@zxing/library": "0.21.2",
+    "next": "14.2.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "@types/node": "^24.7.0",
+    "@types/react": "19.2.2",
     "prisma": "5.15.0",
-    "typescript": "5.9.3",
-    "ts-node": "10.9.2"
+    "ts-node": "10.9.2",
+    "typescript": "5.9.3"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   }
 }
