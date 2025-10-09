@@ -1,6 +1,6 @@
 # Deploying the Logistics IoT Web App to Vercel
 
-This guide walks through deploying the Next.js application located in `LogistikIOT/web` to [Vercel](https://vercel.com/).
+This guide walks through deploying the Next.js application located in `LogistikIOT` to [Vercel](https://vercel.com/).
 
 ## Prerequisites
 
@@ -8,13 +8,14 @@ This guide walks through deploying the Next.js application located in `LogistikI
 - Access to the repository that contains the Logistics IoT project.
 - A MySQL-compatible database (PlanetScale, Neon + MySQL, etc.) with a connection string ready. The application uses Prisma, so the `DATABASE_URL` must be reachable from Vercel.
 - (Optional) A Vercel project already created. If you do not have one, the CLI will let you create it during `vercel link`.
+- The repository ships with a `vercel.json` file in the project root that pins Node.js 20 and runs installs/builds with `pnpm`. Keep this file at the root when you import the project into Vercel so the deployment uses the correct settings.
 
 ## 1. Set the project root
 
-The Next.js application lives under `LogistikIOT/web`. When you deploy to Vercel you must set the **Root Directory** to this folder. You can do it through the Vercel dashboard or the CLI:
+The Next.js application lives under `LogistikIOT`. When you deploy to Vercel you must set the **Root Directory** to this folder. You can do it through the Vercel dashboard or the CLI:
 
 ```bash
-cd LogistikIOT/web
+cd LogistikIOT
 vercel link
 ```
 
@@ -44,7 +45,7 @@ environment the deployment for the other will fail to connect to the database.
 Before deploying, make sure your database has the latest schema:
 
 ```bash
-cd LogistikIOT/web
+cd LogistikIOT
 pnpm install
 pnpm prisma migrate deploy
 ```
@@ -53,7 +54,7 @@ Running migrations locally before the first deploy ensures Prisma has created al
 
 ## 4. Deploy with the Vercel CLI
 
-From the `LogistikIOT/web` directory run:
+From the `LogistikIOT` directory run:
 
 ```bash
 vercel --prod
@@ -61,7 +62,7 @@ vercel --prod
 
 The command will build the project using the configuration in `vercel.json`, upload the build output, and point the production domain to the new deployment. For preview deployments omit `--prod`.
 
-If the build fails because dependencies are missing, double-check that the `pnpm-lock.yaml` file is committed and that your project is configured to use **Node.js 20** (matching the `vercel.json` file).
+If the build fails because dependencies are missing, double-check that the `pnpm-lock.yaml` file is committed and that your project is configured to use **Node.js 20** (matching the `vercel.json` file in the project root).
 
 ## 5. Post-deployment checklist
 
