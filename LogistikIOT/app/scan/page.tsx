@@ -1,38 +1,46 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
-import { BrowserMultiFormatReader } from '@zxing/browser'
+import { Html5Qrcode } from 'html5-qrcode'
 
 export default function ScanPage() {
-  const videoRef = useRef<HTMLVideoElement>(null)
   const [code, setCode] = useState('')
   const [qty, setQty] = useState(1)
   const [mode, setMode] = useState<'inbound'|'outbound'|'count'>('inbound')
+  const containerId = useRef(`scanner-${Math.random().toString(36).slice(2)}`).current
+  const scannerRef = useRef<Html5Qrcode | null>(null)
 
   useEffect(() => {
-    const reader = new BrowserMultiFormatReader()
-    let stop = false
+    const scanner = new Html5Qrcode(containerId)
+    scannerRef.current = scanner
     ;(async () => {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-        if (videoRef.current) videoRef.current.srcObject = stream
-        await reader.decodeFromVideoDevice(null, videoRef.current!, (res, err) => {
-          if (stop) return
-          if (res) setCode(res.getText())
-        })
-      } catch (e) { console.error(e) }
+        await scanner.start(
+          { facingMode: 'environment' },
+          { fps: 10, qrbox: { width: 250, height: 250 } },
+          (decoded) => setCode(decoded),
+          (err) => { /* ignore scan errors */ }
+        )
+      } catch (e) {
+        console.error('scan start error', e)
+      }
     })()
-    return () => { stop = true; reader.reset() }
-  }, [])
+    return () => { scanner.stop().catch(()=>{}); scanner.clear().catch(()=>{}) }
+  }, [containerId])
 
   const submit = async () => {
-    const r = await fetch('/api/scan/submit', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ code, mode, warehouseCode: 'WH-A', qty }) })
-    alert(await r.text())
+    const r = await fetch('/api/scan/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code, mode, warehouseCode: 'WH-A', qty })
+    })
+    const data = await r.json().catch(()=>({}))
+    alert(JSON.stringify(data))
   }
 
   return (
     <div>
       <h2>Camera Scan</h2>
-      <video ref={videoRef} autoPlay playsInline style={{ width:'100%', maxWidth:480, background:'#000' }} />
+      <div id={containerId} style={{ width: '100%', maxWidth: 480 }} />
       <p>Code: <b>{code}</b></p>
       <div style={{ display:'flex', gap:8, alignItems:'center' }}>
         <label>Mode</label>
