@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@prisma/client": "5.15.0",
+    "prisma": "5.15.0",
     "@zxing/library": "0.21.2",
     "next": "14.2.0",
     "react": "18.2.0",
@@ -20,7 +21,6 @@
     "@types/node": "link:./types/node",
     "@types/react": "link:./types/react",
     "@types/react-dom": "link:./types/react-dom",
-    "prisma": "5.15.0",
     "ts-node": "10.9.2",
     "typescript": "5.9.3"
   },
