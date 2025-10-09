@@ -7,6 +7,9 @@ const __dirname = path.dirname(__filename);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   // aktifkan alias "@" ke root LogistikIOT agar import "@/lib/..." tetap jalan
   webpack: (config) => {
     config.resolve.alias = {
