@@ -2,10 +2,5 @@
   "buildCommand": "pnpm install --frozen-lockfile && pnpm run build",
   "installCommand": "pnpm install --frozen-lockfile",
   "devCommand": "pnpm run dev",
-  "framework": "nextjs",
-  "functions": {
-    "api/**/*.func": {
-      "runtime": "nodejs20.x"
-    }
-  }
+  "framework": "nextjs"
 }
