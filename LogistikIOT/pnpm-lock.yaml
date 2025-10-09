@@ -15,7 +15,7 @@ importers:
         specifier: 0.21.2
         version: 0.21.2
       html5-qrcode:
-        specifier: '2'
+        specifier: ^2.3.8
         version: 2.3.8
       next:
         specifier: 14.2.0
