@@ -11,7 +11,7 @@
 
 ## Quick start
 ```bash
-cd apps/web
+cd LogistikIOT/web
 pnpm i
 cp .env.example .env.local
 # isi DATABASE_URL (TiDB) -> mysql://user:pass@host:4000/db?sslaccept=strict
@@ -32,3 +32,7 @@ pnpm dev  # http://localhost:3000
 - `GET /api/inventory/stocks`
 - `GET /api/outbound/shipments`, `POST /api/outbound/shipments`
 - `POST /api/inbound/grn`
+
+## Deployment
+
+Panduan lengkap deploy ke Vercel tersedia di [`docs/deployment/vercel.md`](docs/deployment/vercel.md).
