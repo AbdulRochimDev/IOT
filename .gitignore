@@ -4,10 +4,12 @@ node_modules/
 .env
 .env.local
 .env.*.local
-apps/web/.next/
-apps/web/out/
-node_modules/
+LogistikIOT/web/.next/
+LogistikIOT/web/out/
 .env*
-.DS_Store
-apps/web/.next/
+!.env.example
+!LogistikIOT/web/.env.example
+LogistikIOT/web/.env
+LogistikIOT/web/.env.local
+LogistikIOT/web/.env.*.local
 *.zip
