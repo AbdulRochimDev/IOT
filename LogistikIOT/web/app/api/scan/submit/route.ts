@@ -4,6 +4,7 @@ import { prisma } from '@/lib/db'
 import { moveIn, moveOut } from '@/lib/stock'
 
 export async function POST(req: Request) {
+  if (!prisma) return NextResponse.json({ error: 'DATABASE_NOT_CONFIGURED' }, { status: 503 })
   const { code, mode = 'count', warehouseCode = 'WH-A', qty = 1 } = await req.json()
   if (!code) return NextResponse.json({ error: 'NO_CODE' }, { status: 400 })
 

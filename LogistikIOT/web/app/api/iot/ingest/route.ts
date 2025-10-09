@@ -4,6 +4,7 @@ import { prisma } from '@/lib/db'
 import crypto from 'crypto'
 
 export async function POST(req: Request) {
+  if (!prisma) return NextResponse.json({ error: 'DATABASE_NOT_CONFIGURED' }, { status: 503 })
   const raw = await req.text()
   let body: any
   try { body = JSON.parse(raw) } catch { return NextResponse.json({ error: 'invalid_json' }, { status: 400 }) }

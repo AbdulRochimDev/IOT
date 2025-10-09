@@ -4,11 +4,13 @@ import { prisma } from '@/lib/db'
 import { moveOut } from '@/lib/stock'
 
 export async function GET() {
+  if (!prisma) return NextResponse.json({ data: [] }, { status: 200 })
   const list = await prisma.shipment.findMany({ include: { events: true, order: true } })
   return NextResponse.json({ data: list })
 }
 
 export async function POST(req: Request) {
+  if (!prisma) return NextResponse.json({ error: 'DATABASE_NOT_CONFIGURED' }, { status: 503 })
   const { number, action, warehouseCode } = await req.json()
   const shp = await prisma.shipment.findUnique({ where: { number }, include: { events: true } })
   if (!shp) return NextResponse.json({ error: 'NOT_FOUND' }, { status: 404 })
