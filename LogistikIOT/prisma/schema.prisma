@@ -1,0 +1,4 @@
+generator client{provider="prisma-client-js"}
+datasource db{provider="mysql";url=env("DATABASE_URL")} 
+model Item{ id BigInt @id @default(autoincrement()); sku String @unique; name String; qty Int @default(0) }
+model Event{ id BigInt @id @default(autoincrement()); source String; payload String; createdAt DateTime @default(now()) }

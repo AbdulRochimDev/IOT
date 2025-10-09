@@ -1,0 +1,2 @@
+import { db } from './db'
+export async function applyMovement(sku:string, qty:number, mode:'inbound'|'outbound'|'count'){const it=await db.item.upsert({where:{sku},create:{sku,name:sku,qty:0},update:{}}); if(mode==='inbound'){return db.item.update({where:{sku},data:{qty:{increment:qty}}})} if(mode==='outbound'){if(it.qty<qty) throw new Error('insufficient stock'); return db.item.update({where:{sku},data:{qty:{decrement:qty}}})} return db.item.update({where:{sku},data:{qty}})}
