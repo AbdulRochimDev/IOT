@@ -1,3 +1,13 @@
 import { NextResponse } from 'next/server'
-import { db } from '@/lib/db'
-export async function GET(){const items=await db.item.findMany({orderBy:{sku:'asc'}}); return NextResponse.json({items})}
+import { listInventory } from '@/lib/inventory'
+
+export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
+
+export async function GET() {
+  const { items, error } = await listInventory()
+  if (error) {
+    return NextResponse.json({ items, error }, { status: 503 })
+  }
+  return NextResponse.json({ items })
+}
