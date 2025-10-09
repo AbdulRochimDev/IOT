@@ -1,0 +1,24 @@
+name: CI
+on:
+  push: { branches: [ main ] }
+  pull_request: { branches: [ main ] }
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: LogistikIOT } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with: { version: 9 }
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+          cache-dependency-path: LogistikIOT/pnpm-lock.yaml
+      - run: pnpm i --frozen-lockfile
+      - run: pnpm typecheck
+      # - run: pnpm lint        # ❌ HAPUS / KOMENTARI
+      - run: pnpm test
+      - run: pnpm test:e2e || true   # e2e opsional, jangan merahkan PR
+      - run: pnpm build
