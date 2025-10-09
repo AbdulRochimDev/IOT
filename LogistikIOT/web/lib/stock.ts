@@ -2,6 +2,7 @@
 import { prisma } from './db'
 
 export async function moveIn(warehouseId: string, itemId: string, qty: number, ref?: string) {
+  if (!prisma) throw new Error('DATABASE_NOT_CONFIGURED')
   const stock = await prisma.stock.upsert({
     where: { warehouseId_itemId: { warehouseId, itemId } },
     create: { warehouseId, itemId, qty },
@@ -12,6 +13,7 @@ export async function moveIn(warehouseId: string, itemId: string, qty: number, r
 }
 
 export async function moveOut(warehouseId: string, itemId: string, qty: number, ref?: string) {
+  if (!prisma) throw new Error('DATABASE_NOT_CONFIGURED')
   const current = await prisma.stock.findUnique({ where: { warehouseId_itemId: { warehouseId, itemId } } })
   if (!current || current.qty < qty) throw new Error('INSUFFICIENT_STOCK')
   const stock = await prisma.stock.update({

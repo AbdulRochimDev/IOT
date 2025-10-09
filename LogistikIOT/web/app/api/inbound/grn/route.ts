@@ -4,6 +4,7 @@ import { prisma } from '@/lib/db'
 import { moveIn } from '@/lib/stock'
 
 export async function POST(req: Request) {
+  if (!prisma) return NextResponse.json({ error: 'DATABASE_NOT_CONFIGURED' }, { status: 503 })
   const body = await req.json().catch(()=>({}))
   const { warehouseCode = 'WH-A' } = body || {}
   const wh = await prisma.warehouse.findUnique({ where: { code: warehouseCode } })
