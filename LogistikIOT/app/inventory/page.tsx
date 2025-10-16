@@ -1,4 +1,4 @@
-import { db } from '@/lib/db'
+import { db, isDatabaseConfigured } from '@/lib/db'
 
 export const dynamic = 'force-dynamic'
 
@@ -41,6 +41,11 @@ export default async function InventoryPage() {
           </tbody>
         </table>
       )}
+      {!isDatabaseConfigured && !loadError ? (
+        <p role="note">
+          Database connection is not configured. Showing sample inventory data instead.
+        </p>
+      ) : null}
     </div>
   )
 }
