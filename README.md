@@ -11,7 +11,7 @@
 
 ## Quick start
 ```bash
-cd LogistikIOT/web
+cd LogistikIOT
 pnpm i
 cp .env.example .env.local
 # isi DATABASE_URL (TiDB) -> mysql://user:pass@host:4000/db?sslaccept=strict
