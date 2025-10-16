@@ -6,7 +6,7 @@
     "node": "20.x"
   },
   "scripts": {
-    "dev": "next dev",
+    "dev": "node scripts/next-dev.cjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
